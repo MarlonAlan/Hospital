@@ -1,0 +1,1405 @@
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/.idea/.gitignore	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/.idea/misc.xml	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/.idea/modules.xml	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/Hospital.iml" filepath="$PROJECT_DIR$/Hospital.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/.idea/vcs.xml	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: AlterarDados.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/AlterarDados.java b/AlterarDados.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/AlterarDados.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,118 @@
++package Hospital;
++
++import java.sql.*;
++
++public class AlterarDados {
++    public static void alterarPaciente(String cpf, String novoNome, String novoTelefone) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++
++            String sql = "UPDATE paciente SET nome = ?, telefone = ? WHERE cpf = ?";
++            preparedStatement = conexao.prepareStatement(sql);
++            preparedStatement.setString(1, novoNome);
++            preparedStatement.setString(2, novoTelefone);
++            preparedStatement.setString(3, cpf);
++
++            int registrosAtualizados = preparedStatement.executeUpdate();
++            System.out.println("Registros atualizados: " + registrosAtualizados);
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        } finally {
++            try {
++                if (preparedStatement != null) {
++                    preparedStatement.close();
++                }
++                if (conexao != null) {
++                    conexao.close();
++                }
++            } catch (SQLException e) {
++                e.printStackTrace();
++            }
++        }
++    }
++
++    public static void alterarMedico(String cpf, String novoNome, String novaEspecialidade) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++
++            String sql = "UPDATE medico SET nome = ?, especialidade = ? WHERE cpf = ?";
++            preparedStatement = conexao.prepareStatement(sql);
++            preparedStatement.setString(1, novoNome);
++            preparedStatement.setString(2, novaEspecialidade);
++            preparedStatement.setString(3, cpf);
++
++            int registrosAtualizados = preparedStatement.executeUpdate();
++            System.out.println("Registros atualizados: " + registrosAtualizados);
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        } finally {
++            try {
++                if (preparedStatement != null) {
++                    preparedStatement.close();
++                }
++                if (conexao != null) {
++                    conexao.close();
++                }
++            } catch (SQLException e) {
++                e.printStackTrace();
++            }
++        }
++    }
++    public static void alterarConsulta(String cpf, String novaData, String novoHorario) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++
++            // Obter o ID do paciente com base no CPF
++            String obterIdPacienteSql = "SELECT id FROM paciente WHERE cpf = ?";
++            preparedStatement = conexao.prepareStatement(obterIdPacienteSql);
++            preparedStatement.setString(1, cpf);
++            int idPaciente = -1;
++            ResultSet resultSet = preparedStatement.executeQuery();
++            if (resultSet.next()) {
++                idPaciente = resultSet.getInt("id");
++            }
++            resultSet.close();
++
++            if (idPaciente != -1) {
++                String sql = "UPDATE consulta SET data_consulta = ?, hora_consulta = ? WHERE id_paciente = ?";
++                preparedStatement = conexao.prepareStatement(sql);
++                preparedStatement.setString(1, novaData);
++                preparedStatement.setString(2, novoHorario);
++                preparedStatement.setInt(3, idPaciente);
++
++                int registrosAtualizados = preparedStatement.executeUpdate();
++                System.out.println("Registros atualizados: " + registrosAtualizados);
++            } else {
++                System.out.println("Paciente não encontrado!");
++            }
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        } finally {
++            try {
++                if (preparedStatement != null) {
++                    preparedStatement.close();
++                }
++                if (conexao != null) {
++                    conexao.close();
++                }
++            } catch (SQLException e) {
++                e.printStackTrace();
++            }
++        }
++    }
++}
+Index: BuscarDados.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BuscarDados.java b/BuscarDados.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/BuscarDados.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,133 @@
++package Hospital;
++
++import javax.swing.*;
++import java.sql.*;
++
++public class BuscarDados {
++    public static void buscarPaciente(String cpf,  GuiCadastroPaciente guiCadastroPaciente) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        ResultSet resultSet = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            String sql = ("select nome, cpf, telefone from paciente where cpf = ?");
++            preparedStatement = conexao.prepareStatement(sql);
++            preparedStatement.setString(1, cpf);
++
++            resultSet = preparedStatement.executeQuery();
++            if (resultSet.next()){
++                String nome = resultSet.getString("nome");
++                String cpfEncontrado = resultSet.getString("cpf");
++                String telefone = resultSet.getString("telefone");
++
++                SwingUtilities.invokeLater(() -> {
++                    guiCadastroPaciente.tfNome.setText(nome);
++                    guiCadastroPaciente.tfCPF.setText(cpfEncontrado);
++                    guiCadastroPaciente.tfTelefone.setText(telefone);
++                });
++            }else {
++                System.out.println("Paciente não encontrado!");
++            }
++        }catch (ClassNotFoundException e){
++            e.printStackTrace();
++        }catch (SQLException e){
++            e.printStackTrace();
++        }finally {
++            try {
++                if (preparedStatement != null){
++                    preparedStatement.close();
++                }
++                if (conexao != null){
++                    conexao.close();
++                }
++            }catch (SQLException e){
++                e.printStackTrace();
++            }
++        }
++    }
++    public static void buscarMedico(String cpf, GuiCadastroMedico guiCadastroMedico, JComboBox<String> cbEspecialidade) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        ResultSet resultSet = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            String sql = "select nome, cpf, especialidade from medico where cpf = ?";
++            preparedStatement = conexao.prepareStatement(sql);
++            preparedStatement.setString(1, cpf);
++
++            resultSet = preparedStatement.executeQuery();
++            if (resultSet.next()){
++                String nome = resultSet.getString("nome");
++                String especialidade = resultSet.getString("especialidade");
++
++                guiCadastroMedico.tfNome.setText(nome);
++                guiCadastroMedico.cbEspecialidade.setSelectedItem(especialidade);
++            }
++
++            int registrosExcluidos = preparedStatement.executeUpdate();
++            System.out.println("Registros excluídos: " + registrosExcluidos);
++        }catch (ClassNotFoundException e){
++            e.printStackTrace();
++        }catch (SQLException e){
++            e.printStackTrace();
++        }finally {
++            try {
++                if (preparedStatement != null){
++                    preparedStatement.close();
++                }
++                if (conexao != null){
++                    conexao.close();
++                }
++            }catch (SQLException e){
++                e.printStackTrace();
++            }
++        }
++    }
++    public static void buscarConsulta(String cpf) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++
++            // Obter o ID do paciente com base no CPF
++            String obterIdPacienteSql = "select id from paciente where cpf = ?";
++            preparedStatement = conexao.prepareStatement(obterIdPacienteSql);
++            preparedStatement.setString(1, cpf);
++            int idPaciente = -1;
++            ResultSet resultSet = preparedStatement.executeQuery();
++            if (resultSet.next()){
++                idPaciente = resultSet.getInt("id");
++            }
++            resultSet.close();
++
++            // Excluir as consultas do paciente
++            if (idPaciente != -1){
++                String excluirConsultaSql = "delete from consulta where id_paciente = ?";
++                preparedStatement = conexao.prepareStatement(excluirConsultaSql);
++                preparedStatement.setInt(1, idPaciente);
++                int registrosExcluidos = preparedStatement.executeUpdate();
++                System.out.println("Consultas excluídas: " + registrosExcluidos);
++            }else {
++                System.out.println("Paciente não encontrato!");
++            }
++        }catch (ClassNotFoundException e){
++            e.printStackTrace();
++        }catch (SQLException e){
++            e.printStackTrace();
++        }finally {
++            try {
++                if (preparedStatement != null){
++                    preparedStatement.close();
++                }
++                if (conexao != null){
++                    conexao.close();
++                }
++            }catch (SQLException e){
++                e.printStackTrace();
++            }
++        }
++    }
++}
+Index: ConexaoMySQL.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ConexaoMySQL.java b/ConexaoMySQL.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/ConexaoMySQL.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,35 @@
++package Hospital;
++
++import java.sql.*;
++public class ConexaoMySQL {
++    public Connection connection = null;
++    public boolean getConnection(){
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            System.out.println("Driver carregado com sucesso!");
++            return true;
++        } catch (ClassNotFoundException e) {
++            System.out.println("Driver não pode ser carregado!");
++            return false;
++        } catch (SQLException e) {
++            e.printStackTrace();
++            return false;
++        } finally {
++            try {
++                if (connection != null) {
++                    connection.close();
++                }
++            } catch (SQLException e) {
++                e.printStackTrace();
++            }
++        }
++    }
++    public void close(){
++        try {
++            connection.close();
++            System.out.println("Desconectou");
++        }catch (SQLException erro){
++        }
++    }
++}
+Index: ConexãoMySQL.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ConexãoMySQL.java b/ConexãoMySQL.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/ConexãoMySQL.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,25 @@
++package Hospital;
++import java.sql.*;
++
++public class ConexãoMySQL {
++    public static void main(String[] args) {
++        Connection conexao = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            System.out.println("Driver carregado com sucesso!");
++        }catch (ClassNotFoundException e){
++            System.out.println("Driver não pode ser carregado");
++        }catch (SQLException e){
++            e.printStackTrace();
++        }finally {
++            try {
++                if (conexao != null){
++                    conexao.close();
++                }
++            }catch (SQLException e){
++                e.printStackTrace();
++            }
++        }
++    }
++}
+Index: Eventos.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Eventos.java b/Eventos.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/Eventos.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,26 @@
++package Hospital;
++
++import javax.swing.*;
++import java.awt.*;
++import java.awt.event.ActionEvent;
++import java.awt.event.ActionListener;
++
++public class Eventos implements ActionListener {
++    public void actionPerformed(ActionEvent e){
++        if (e.getActionCommand().equals("Agendar consulta")) {
++            GuiAgendarConsulta telaAgendarConsulta = new GuiAgendarConsulta(this);
++            telaAgendarConsulta.setVisible(true);
++
++        } else if (e.getActionCommand().equals("Cadastro de Paciente")) {
++            GuiCadastroPaciente telaCadastroPaciente = new GuiCadastroPaciente(this);
++            telaCadastroPaciente.setVisible(true);
++
++        } else if (e.getActionCommand().equals("Cadastro de Médico")) {
++            GuiCadastroMedico telaCadastroMedico = new GuiCadastroMedico(this);
++            telaCadastroMedico.setVisible(true);
++
++        }
++    }
++
++}
++
+Index: ExcluirDados.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ExcluirDados.java b/ExcluirDados.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/ExcluirDados.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,109 @@
++package Hospital;
++
++import java.sql.*;
++
++public class ExcluirDados {
++    public static void excluirPaciente(String cpf) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            String sql = ("delete from paciente where cpf = ?");
++            preparedStatement = conexao.prepareStatement(sql);
++            preparedStatement.setString(1, cpf);
++
++            int registrosExcluidos = preparedStatement.executeUpdate();
++            System.out.println("Registros excluídos: " + registrosExcluidos);
++        }catch (ClassNotFoundException e){
++            e.printStackTrace();
++        }catch (SQLException e){
++            e.printStackTrace();
++        }finally {
++            try {
++                if (preparedStatement != null){
++                    preparedStatement.close();
++                }
++                if (conexao != null){
++                    conexao.close();
++                }
++            }catch (SQLException e){
++                e.printStackTrace();
++            }
++        }
++    }
++    public static void excluirMedico(String cpf) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            String sql = ("delete from medico where cpf = ?");
++            preparedStatement = conexao.prepareStatement(sql);
++            preparedStatement.setString(1, cpf);
++
++            int registrosExcluidos = preparedStatement.executeUpdate();
++            System.out.println("Registros excluídos: " + registrosExcluidos);
++        }catch (ClassNotFoundException e){
++            e.printStackTrace();
++        }catch (SQLException e){
++            e.printStackTrace();
++        }finally {
++            try {
++                if (preparedStatement != null){
++                    preparedStatement.close();
++                }
++                if (conexao != null){
++                    conexao.close();
++                }
++            }catch (SQLException e){
++                e.printStackTrace();
++            }
++        }
++    }
++    public static void excluirConsulta(String cpf) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++
++            // Obter o ID do paciente com base no CPF
++            String obterIdPacienteSql = "select id from paciente where cpf = ?";
++            preparedStatement = conexao.prepareStatement(obterIdPacienteSql);
++            preparedStatement.setString(1, cpf);
++            int idPaciente = -1;
++            ResultSet resultSet = preparedStatement.executeQuery();
++            if (resultSet.next()){
++                idPaciente = resultSet.getInt("id");
++            }
++            resultSet.close();
++
++            // Excluir as consultas do paciente
++            if (idPaciente != -1){
++                String excluirConsultaSql = "delete from consulta where id_paciente = ?";
++                preparedStatement = conexao.prepareStatement(excluirConsultaSql);
++                preparedStatement.setInt(1, idPaciente);
++                int registrosExcluidos = preparedStatement.executeUpdate();
++                System.out.println("Consultas excluídas: " + registrosExcluidos);
++            }else {
++                System.out.println("Paciente não encontrato!");
++            }
++        }catch (ClassNotFoundException e){
++            e.printStackTrace();
++        }catch (SQLException e){
++            e.printStackTrace();
++        }finally {
++            try {
++                if (preparedStatement != null){
++                    preparedStatement.close();
++                }
++                if (conexao != null){
++                    conexao.close();
++                }
++            }catch (SQLException e){
++                e.printStackTrace();
++            }
++        }
++    }
++}
+\ No newline at end of file
+Index: GuiAgendarConsulta.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/GuiAgendarConsulta.java b/GuiAgendarConsulta.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/GuiAgendarConsulta.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,104 @@
++package Hospital;
++
++import javax.swing.*;
++import java.awt.*;
++import java.awt.event.ActionEvent;
++import java.awt.event.ActionListener;
++
++public class GuiAgendarConsulta extends JFrame {
++    private Eventos eventos;
++    public JTextField tfCPF, tfData, tfHora, tfMedico;
++    public GuiAgendarConsulta(Eventos eventos){
++        this.eventos = eventos;
++        // Configurações da janela
++        setTitle("Marcar Consulta");
++        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
++
++        // Obter a resolução do monitor
++        Dimension telaTamanho = Toolkit.getDefaultToolkit().getScreenSize();
++        int telaLargura = (int) (telaTamanho.getWidth() * 0.4); //40% da largura do monitor
++        int telaAltura = (int) (telaTamanho.getHeight() * 0.4); //40% da altura do monitor
++        setSize(telaLargura, telaAltura);
++
++        // Centraliza a tela
++        setLocationRelativeTo(null);
++
++        // Cria e configura os componentes da tela
++        JPanel contentPane = new JPanel();
++        contentPane.setLayout(new BorderLayout());
++
++        JPanel panel = new JPanel();
++        panel.setLayout(null);
++
++        JLabel lbCPF = new JLabel("CPF: ");
++        JLabel lbData = new JLabel("Data: ");
++        JLabel lbHora = new JLabel("Hora: ");
++        JLabel lbMedico = new JLabel("Médico: ");
++
++        tfCPF = new JTextField(11);
++        tfData = new JTextField(8);
++        tfHora = new JTextField(4);
++        tfMedico = new JTextField(60);
++
++        JButton btGravar = new JButton("Gravar");
++        JButton btSalvar = new JButton("Salvar");
++        JButton btExcluir = new JButton("Excluir");
++
++        btGravar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++                String data = tfData.getText();
++                String hora = tfHora.getText();
++                String medico = tfMedico.getText();
++
++                InserirDados.inserirConsulta(cpf, data, hora, medico);
++            }
++        });
++        btSalvar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++                String novaData = tfData.getText();
++                String novoHorario = tfHora.getText();
++
++                AlterarDados.alterarConsulta(cpf, novaData, novoHorario);
++            }
++        });
++        btExcluir.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++
++                ExcluirDados.excluirConsulta(cpf);
++            }
++        });
++
++        lbCPF.setBounds(30,30,120,25);
++        lbData.setBounds(30,60,120,25);
++        lbHora.setBounds(30,90,120,25);
++        lbMedico.setBounds(30,120,120,25);
++        tfCPF.setBounds(130,30,120,25);
++        tfData.setBounds(130,60,120,25);
++        tfHora.setBounds(130,90,120,25);
++        tfMedico.setBounds(130,120,320,25);
++        btGravar.setBounds(130,300,100,25);
++        btSalvar.setBounds(230,300,100,25);
++        btExcluir.setBounds(330,300,100,25);
++
++        panel.add(lbCPF);
++        panel.add(tfCPF);
++        panel.add(lbData);
++        panel.add(tfData);
++        panel.add(lbHora);
++        panel.add(tfHora);
++        panel.add(lbMedico);
++        panel.add(tfMedico);
++        panel.add(btGravar);
++        panel.add(btSalvar);
++        panel.add(btExcluir);
++        contentPane.add(panel, BorderLayout.CENTER);
++
++        setContentPane(contentPane);
++    }
++}
+Index: GuiCadastroMedico.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/GuiCadastroMedico.java b/GuiCadastroMedico.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/GuiCadastroMedico.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,122 @@
++package Hospital;
++
++import javax.swing.*;
++import java.awt.*;
++import java.awt.event.ActionEvent;
++import java.awt.event.ActionListener;
++import java.util.Arrays;
++
++public class GuiCadastroMedico extends JFrame {
++    private Eventos eventos;
++    public JTextField tfCPF, tfNome;
++    public JComboBox<String> cbEspecialidade;
++    public GuiCadastroMedico(Eventos eventos){
++        this.eventos = eventos;
++        // Configurações da janela
++        setTitle("Cadastro Médico");
++        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
++
++        // Obter a resolução do monitor
++        Dimension telaTamanho = Toolkit.getDefaultToolkit().getScreenSize();
++        int telaLargura = (int) (telaTamanho.getWidth() * 0.4); //40% da largura do monitor
++        int telaAltura = (int) (telaTamanho.getHeight() * 0.4); //40% da altura do monitor
++        setSize(telaLargura, telaAltura);
++
++        // Centraliza a tela
++        setLocationRelativeTo(null);
++
++        // Cria e configura os componentes da tela
++        JPanel contentPane = new JPanel();
++        contentPane.setLayout(new BorderLayout());
++
++        JPanel panel = new JPanel();
++        panel.setLayout(null);
++
++        JLabel lbCPF = new JLabel("CPF: ");
++        JLabel lbNome = new JLabel("Nome: ");
++        JLabel lbEspecialidade = new JLabel("Especialidade: ");
++
++        tfCPF = new JTextField(11);
++        tfNome = new JTextField(60);
++
++        cbEspecialidade = new JComboBox<>();
++        cbEspecialidade.addItem("Alergista");
++        cbEspecialidade.addItem("Angiologista");
++        cbEspecialidade.addItem("Cardiologista");
++        cbEspecialidade.addItem("Dermatologista");
++        cbEspecialidade.addItem("Endocrinologista");
++        cbEspecialidade.addItem("Ginocologista");
++        cbEspecialidade.addItem("Infectologista");
++        cbEspecialidade.addItem("Neurologista");
++        cbEspecialidade.addItem("Oftalmologista");
++        cbEspecialidade.addItem("Pediatra");
++        cbEspecialidade.addItem("Urologista");
++
++        JButton btBuscar = new JButton("Buscar");
++        JButton btGravar = new JButton("Gravar");
++        JButton btSalvar = new JButton("Salvar");
++        JButton btExcluir = new JButton("Excluir");
++
++        btBuscar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++
++                BuscarDados.buscarMedico(cpf, GuiCadastroMedico.this, cbEspecialidade);
++            }
++        });
++        btGravar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++                String nome = tfNome.getText();
++                String especialidade = (String) cbEspecialidade.getSelectedItem();
++
++                InserirDados.inserirMedico(nome, cpf, especialidade);
++            }
++        });
++        btSalvar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++                String novoNome = tfNome.getText();
++                String novaEspecialidade = (String) cbEspecialidade.getSelectedItem();
++
++                AlterarDados.alterarMedico(cpf, novoNome, novaEspecialidade);
++            }
++        });
++        btExcluir.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++
++                ExcluirDados.excluirMedico(cpf);
++            }
++        });
++
++        lbCPF.setBounds(30,30,120,25);
++        lbNome.setBounds(30,60,120,25);
++        lbEspecialidade.setBounds(30,90,120,25);
++        tfCPF.setBounds(130,30,120,25);
++        tfNome.setBounds(130,60,320,25);
++        cbEspecialidade.setBounds(130,90,120,25);
++        btBuscar.setBounds(30,300,100,25);
++        btGravar.setBounds(130,300,100,25);
++        btSalvar.setBounds(230,300,100,25);
++        btExcluir.setBounds(330,300,100,25);
++
++        panel.add(lbCPF);
++        panel.add(tfCPF);
++        panel.add(lbNome);
++        panel.add(tfNome);
++        panel.add(lbEspecialidade);
++        panel.add(cbEspecialidade);
++        panel.add(btBuscar);
++        panel.add(btGravar);
++        panel.add(btSalvar);
++        panel.add(btExcluir);
++        contentPane.add(panel, BorderLayout.CENTER);
++
++        setContentPane(contentPane);
++    }
++}
+Index: GuiCadastroPaciente.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/GuiCadastroPaciente.java b/GuiCadastroPaciente.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/GuiCadastroPaciente.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,107 @@
++package Hospital;
++
++import javax.swing.*;
++import java.awt.*;
++import java.awt.event.ActionEvent;
++import java.awt.event.ActionListener;
++
++public class GuiCadastroPaciente extends JFrame {
++    private Eventos eventos;
++    public JTextField tfCPF, tfNome, tfTelefone;
++
++    public GuiCadastroPaciente(Eventos eventos){
++        this.eventos = eventos;
++        // Configurações da janela
++        setTitle("Cadastro Paciente");
++        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
++
++        // Obter a resolução do monitor
++        Dimension telaTamanho = Toolkit.getDefaultToolkit().getScreenSize();
++        int telaLargura = (int) (telaTamanho.getWidth() * 0.4); //40% da largura do monitor
++        int telaAltura = (int) (telaTamanho.getHeight() * 0.4); //40% da altura do monitor
++        setSize(telaLargura, telaAltura);
++
++        // Centraliza a tela
++        setLocationRelativeTo(null);
++
++        // Cria e configura os componentes da tela
++        JPanel contentPane = new JPanel();
++        contentPane.setLayout(new BorderLayout());
++
++        JPanel panel = new JPanel();
++        panel.setLayout(null);
++
++        JLabel lbCPF = new JLabel("CPF: ");
++        JLabel lbNome = new JLabel("Nome: ");
++        JLabel lbTelefone = new JLabel("Telefone: ");
++        tfCPF = new JTextField(11);
++        tfNome = new JTextField(60);
++        tfTelefone = new JTextField(11);
++        JButton btBuscar = new JButton("Buscar");
++        JButton btGravar = new JButton("Gravar");
++        JButton btSalvar = new JButton("Salvar");
++        JButton btExcluir = new JButton("Excluir");
++
++        btBuscar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++
++                BuscarDados.buscarPaciente(cpf, GuiCadastroPaciente.this);
++            }
++        });
++        btGravar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++                String nome = tfNome.getText();
++                String telefone = tfTelefone.getText();
++
++                InserirDados.inserirPaciente(nome, cpf, telefone);
++            }
++        });
++        btSalvar.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++                String novoNome = tfNome.getText();
++                String novoTelefone = tfTelefone.getText();
++
++                AlterarDados.alterarPaciente(cpf, novoNome, novoTelefone);
++            }
++        });
++        btExcluir.addActionListener(new ActionListener() {
++            @Override
++            public void actionPerformed(ActionEvent e) {
++                String cpf = tfCPF.getText();
++
++                ExcluirDados.excluirPaciente(cpf);
++            }
++        });
++
++        lbCPF.setBounds(30,30,120,25);
++        lbNome.setBounds(30,60,120,25);
++        lbTelefone.setBounds(30,90,120,25);
++        tfCPF.setBounds(130,30,120,25);
++        tfNome.setBounds(130,60,320,25);
++        tfTelefone.setBounds(130,90,120,25);
++        btBuscar.setBounds(30,300,100,25);
++        btGravar.setBounds(130,300,100,25);
++        btSalvar.setBounds(230,300,100,25);
++        btExcluir.setBounds(330,300,100,25);
++
++        panel.add(lbCPF);
++        panel.add(tfCPF);
++        panel.add(lbNome);
++        panel.add(tfNome);
++        panel.add(lbTelefone);
++        panel.add(tfTelefone);
++        panel.add(btBuscar);
++        panel.add(btGravar);
++        panel.add(btSalvar);
++        panel.add(btExcluir);
++        contentPane.add(panel, BorderLayout.CENTER);
++
++        setContentPane(contentPane);
++    }
++}
+\ No newline at end of file
+Index: GuiHospital.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/GuiHospital.java b/GuiHospital.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/GuiHospital.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,215 @@
++package Hospital;
++
++import javax.swing.*;
++import java.awt.*;
++import java.awt.event.*;
++import java.sql.*;
++
++public class GuiHospital extends JFrame implements ActionListener{
++
++    public static void main(String[] args) {
++        new GuiHospital();
++    }
++
++    private JLabel lbNome, lbCPF, lbTelefone;
++    private JTextField tfNome, tfCPF, tfTelefone;
++
++    private JButton btGravar, btAlterar, btExcluir, btNovo, btLocalizar, btCancelar, btSair;
++    private Connection conexao;
++    private PreparedStatement statement;
++
++    private GuiHospital(){
++        setLayout(null);
++        setTitle("Hospital IFG");
++        setBounds(450,400,425,300);
++
++        lbNome = new JLabel("CPF");
++        lbCPF = new JLabel("Nome");
++        lbTelefone = new JLabel("Telefone");
++
++        tfNome = new JTextField(50);
++        tfCPF = new JTextField(11);
++        tfTelefone = new JTextField(11);
++
++        btGravar = new JButton(null, new ImageIcon("src/Icons/gravar.png"));
++        btGravar.setToolTipText("Gravar");
++        btAlterar = new JButton(null, new ImageIcon("src/Icons/alterar.png"));
++        btAlterar.setToolTipText("Alterar");
++        btExcluir = new JButton(null, new ImageIcon("src/Icons/excluir.png"));
++        btExcluir.setToolTipText("Excluir");
++        btNovo = new JButton(null, new ImageIcon("src/Icons/novo.png"));
++        btNovo.setToolTipText("Novo");
++        btLocalizar = new JButton(null, new ImageIcon("src/Icons/localizar.png"));
++        btLocalizar.setToolTipText("Localizar");
++        btCancelar = new JButton(null, new ImageIcon("src/Icons/cancelar.png"));
++        btCancelar.setToolTipText("Cancelar");
++        btSair = new JButton(null, new ImageIcon("src/Icons/sair.png"));
++        btSair.setToolTipText("Sair");
++
++        lbNome.setBounds(30,30,120,25);
++        lbCPF.setBounds(30,60,120,25);
++        lbTelefone.setBounds(30,90,120,25);
++        tfNome.setBounds(165,30,200,25);
++        tfCPF.setBounds(165,60,200,25);
++        tfTelefone.setBounds(165,90,200,25);
++        btGravar.setBounds(20,200,40,40);
++        btAlterar.setBounds(75,200,40,40);
++        btExcluir.setBounds(130,200,40,40);
++        btLocalizar.setBounds(185,200,40,40);
++        btNovo.setBounds(240,200,40,40);
++        btCancelar.setBounds(295,200,40,40);
++        btSair.setBounds(350,200,40,40);
++
++        add(lbNome);
++        add(tfNome);
++        add(lbCPF);
++        add(tfCPF);
++        add(lbTelefone);
++        add(tfTelefone);
++        add(btNovo);
++        add(btLocalizar);
++        add(btGravar);
++        add(btAlterar);
++        add(btExcluir);
++        add(btCancelar);
++        add(btSair);
++        setResizable(false);
++        setBotoes(true, true, false, false, false, true);
++
++        btGravar.addActionListener(this);
++        btAlterar.addActionListener(this);
++        btExcluir.addActionListener(this);
++        btNovo.addActionListener(this);
++        btLocalizar.addActionListener(this);
++        btCancelar.addActionListener(this);
++        btSair.addActionListener(this);
++
++        try{
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++        } catch (ClassNotFoundException ex){
++            JOptionPane.showMessageDialog(null, "Driver não encontrado!");
++        } catch (SQLException ex){
++            JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados!");
++        }
++        setVisible(true);
++    }
++    private void limpaCampos(){
++        tfNome.setText("");
++        tfCPF.setText("");
++        tfTelefone.setText("");
++        tfCPF.requestFocus();
++        setBotoes(true, true, false, false, false, false);
++    }
++
++    public void setBotoes(boolean bNovo, boolean bLocalizar, boolean bGravar,
++                          boolean bAlterar, boolean bExcluir, boolean bCancelar){
++        btNovo.setEnabled(bNovo);
++        btLocalizar.setEnabled(bLocalizar);
++        btGravar.setEnabled(bGravar);
++        btAlterar.setEnabled(bAlterar);
++        btExcluir.setEnabled(bExcluir);
++        btCancelar.setEnabled(bCancelar);
++    }
++    private void buscaPaciente(int codigo){
++        try{
++            statement = conexao.prepareStatement("SELECT * FROM tabela1 WHERE codigo = ?");
++            statement.setInt(1, codigo);
++            ResultSet resultado = statement.executeQuery();
++            setBotoes(true, true, false, true, true, true);
++
++            if (resultado.next()){
++                tfCPF.setText(resultado.getString("CPF"));
++                tfNome.setText(resultado.getString("nome"));
++                tfTelefone.setText(resultado.getString("telefone"));
++            }else {
++                JOptionPane.showMessageDialog(null,"Paciente não encontrado");
++            }
++        }catch (SQLException ex){
++            JOptionPane.showMessageDialog(null, "Erro ao buscar o paciente!");
++        }
++    }
++    //arrumar isso aqui
++    private void cadastrarPaciente(){
++        try {
++            statement = conexao.prepareStatement("INSERT INTO tabela1 (cpf, nome, telefone) VALUES (?,?,?)");
++            statement.setInt(1, Integer.parseInt(tfCPF.getText()));
++            statement.setString(2,tfNome.getText());
++            statement.setInt(3,Integer.parseInt(tfTelefone.getText()));
++            statement.executeUpdate();
++            JOptionPane.showMessageDialog(null, "Paciente cadastrado com sucesso");
++            limpaCampos();
++        }catch (SQLException ex){
++            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o paciente!");
++        }
++    }
++    private void atualizarPaciente(){
++        try{
++            statement = conexao.prepareStatement("UPDATE tabela1 SET nome = ?, telefone = ? WHERE cpf = ?");
++            statement.setString(1, tfNome.getText());
++            statement.setInt(2, Integer.parseInt(tfTelefone.getText()));
++            statement.setInt(3, Integer.parseInt(tfCPF.getText()));
++            int linhasAfetadas = statement.executeUpdate();
++            if (linhasAfetadas > 0){
++                JOptionPane.showMessageDialog(null, "Paciente atualizado com sucesso!");
++                limpaCampos();
++            }else {
++                JOptionPane.showMessageDialog(null, "Paciente não encontrado!");
++            }
++        }catch (SQLException ex){
++            JOptionPane.showMessageDialog(null, "Erro ao atualizar paciente!");
++        }
++    }
++    private void excluirPaciente(){
++        try{
++            statement = conexao.prepareStatement("DELETE FROM tabela1 WHERE codigo = ?");
++            statement.setInt(1, Integer.parseInt(tfCPF.getText()));
++            int linhasAfetadas = statement.executeUpdate();
++
++            if (linhasAfetadas > 0){
++                JOptionPane.showMessageDialog(null,"Produto excluido com sucesso!");
++                limpaCampos();
++            } else {
++                JOptionPane.showMessageDialog(null, "Filme não encontrado!");
++            }
++        } catch (SQLException ex){
++            JOptionPane.showMessageDialog(null, "Erro ao excluir paciente!");
++        }
++    }
++    public void actionPerformed(ActionEvent e){
++        if (e.getSource() == btNovo){
++            limpaCampos();
++            setBotoes(false, false, true,false,false, true);
++        } else if (e.getSource() == btGravar){
++            if (tfNome.getText().isEmpty() || tfCPF.getText().isEmpty() || tfTelefone.getText().isEmpty()){
++                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
++            } else if (JOptionPane.showConfirmDialog(null, "Deseja gravar os dados?","Gravar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
++                cadastrarPaciente();
++            }
++        } else if (e.getSource() == btAlterar){
++            if (tfNome.getText().isEmpty() || tfCPF.getText().isEmpty() || tfTelefone.getText().isEmpty()){
++                JOptionPane.showConfirmDialog(null, "Preencha todos os campos!");
++            } else if (JOptionPane.showConfirmDialog(null, "Deseja alterar os dados?", "Alterar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
++                atualizarPaciente();
++            }
++        } else if (e.getSource() == btExcluir){
++            if (tfCPF.getText().isEmpty()){
++                JOptionPane.showConfirmDialog(null, "Informe o CPF do paciente!");
++            } else if (JOptionPane.showConfirmDialog(null, "Deseja excluir os dados?", "Excluir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
++                excluirPaciente();
++            }
++        } else if (e.getSource() == btLocalizar){
++            if (tfCPF.getText().isEmpty()){
++                JOptionPane.showConfirmDialog(null, "Informe o CPF do paciente!");
++            } else {
++                buscaPaciente(Integer.parseInt(tfCPF.getText()));
++            }
++        } else if (e.getSource() == btCancelar){
++            limpaCampos();
++        } else if (e.getSource() == btSair){
++            if (JOptionPane.showConfirmDialog(null, "Deseja sair do programa?", "Sair", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
++                System.exit(0);
++            }
++        }
++    }
++}
+Index: GuiMenu.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/GuiMenu.java b/GuiMenu.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/GuiMenu.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,66 @@
++package Hospital;
++
++import javax.swing.*;
++import java.awt.*;
++
++public class GuiMenu extends JFrame {
++    public GuiMenu() {
++        // Configurações da janela
++        setTitle("Hospital IFG");
++        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
++
++        // Obter a resolução do monitor
++        Dimension telaTamanho = Toolkit.getDefaultToolkit().getScreenSize();
++        int telaLargura = (int) (telaTamanho.getWidth() * 0.25); //25% da largura do monitor
++        int telaAltura = (int) (telaTamanho.getHeight() * 0.25); //25% da altura do monitor
++        setSize(telaLargura, telaAltura);
++
++        // Centraliza a tela
++        setLocationRelativeTo(null);
++
++        // Cria e configura os componenetes da tela
++        JPanel contentPane = new JPanel();
++        contentPane.setLayout(new BorderLayout());
++
++        JPanel panel = new JPanel();
++        panel.setLayout(null);
++
++        JButton agendarConsulta = new JButton("Agendar consulta");
++        JButton cadastroPaciente = new JButton("Cadastro de Paciente");
++        JButton cadastroMedico = new JButton("Cadastro de Médico");
++
++        // Define a largura e altura dos botões
++        int larguraBotao = 200;
++        int alturaBotao = 30;
++
++        // Centraliza os botões horizontalmente
++        int posicaoX = (telaLargura - larguraBotao) / 2;
++
++        // Define as posições dos botões verticalmente
++        int espacamentoVertical = 20;
++        int posicaoYInicial = (telaAltura - (alturaBotao * 5 + espacamentoVertical * 3)) / 2;
++
++        agendarConsulta.setBounds(posicaoX, posicaoYInicial, larguraBotao, alturaBotao);
++        cadastroPaciente.setBounds(posicaoX, posicaoYInicial + 2 * (alturaBotao + espacamentoVertical), larguraBotao, alturaBotao);
++        cadastroMedico.setBounds(posicaoX, posicaoYInicial + 3 * (alturaBotao + espacamentoVertical), larguraBotao, alturaBotao);
++        Eventos eventos = new Eventos();
++
++        agendarConsulta.addActionListener(eventos);
++        cadastroPaciente.addActionListener(eventos);
++        cadastroMedico.addActionListener(eventos);
++
++        panel.add(agendarConsulta);
++        panel.add(cadastroPaciente);
++        panel.add(cadastroMedico);
++        contentPane.add(panel, BorderLayout.CENTER);
++
++        setContentPane(contentPane);
++    }
++
++    public static void main(String[] args) {
++        SwingUtilities.invokeLater(() -> {
++            GuiMenu telaMenu = new GuiMenu();
++            telaMenu.setVisible(true);
++        });
++    }
++}
+Index: Hospital.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Hospital.iml b/Hospital.iml
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/Hospital.iml	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" packagePrefix="Hospital" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: InserirDados.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/InserirDados.java b/InserirDados.java
+new file mode 100644
+--- /dev/null	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
++++ b/InserirDados.java	(revision 90619a1568f5cab70d1effee72ef885d79af3ba9)
+@@ -0,0 +1,129 @@
++package Hospital;
++import java.sql.*;
++public class InserirDados {
++    public static void inserirPaciente(String nome, String cpf, String telefone){
++        Connection conexao = null;
++        Statement stmt = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            stmt = conexao.createStatement();
++
++            // Executa a inserção de dados na tabela de pacientes
++            String query = "insert into paciente (nome, cpf, telefone) values ('" + nome + "', '" + cpf + "', '" + telefone + "')";
++            stmt.executeUpdate(query);
++
++            System.out.println("Paciente Cadastrado com sucesso!");
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++            System.out.println("Falha ao cadastrar o paciente!");
++        } catch (SQLException e) {
++            e.printStackTrace();
++        } finally {
++            try {
++                if (stmt != null) {
++                    stmt.close();
++                }
++                if (conexao != null) {
++                    conexao.close();
++                }
++            } catch (SQLException e) {
++                e.printStackTrace();
++            }
++        }
++    }
++
++    public static void inserirMedico(String nome, String cpf, String especialidade) {
++        Connection conexao = null;
++        Statement stmt = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++            stmt = conexao.createStatement();
++
++            // Executa a inserção de dados na tabela de pacientes
++            String query = "insert into medico (nome, cpf, especialidade) values ('" + nome + "', '" + cpf + "', '" + especialidade + "')";
++            stmt.executeUpdate(query);
++
++            System.out.println("Médico Cadastrado com sucesso!");
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++            System.out.println("Falha ao cadastrar o médico!");
++        } catch (SQLException e) {
++            e.printStackTrace();
++        } finally {
++            try {
++                if (stmt != null) {
++                    stmt.close();
++                }
++                if (conexao != null) {
++                    conexao.close();
++                }
++            } catch (SQLException e) {
++                e.printStackTrace();
++            }
++        }
++    }
++
++    public static void inserirConsulta(String data, String horario, String pacienteCPF, String medicoNome) {
++        Connection conexao = null;
++        PreparedStatement preparedStatement = null;
++        try {
++            Class.forName("com.mysql.cj.jdbc.Driver");
++            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital", "root", "");
++
++            // Obter o ID do paciente com base no CPF
++            String obterIdPacienteSql = "SELECT id FROM paciente WHERE cpf = ?";
++            preparedStatement = conexao.prepareStatement(obterIdPacienteSql);
++            preparedStatement.setString(1, pacienteCPF);
++            ResultSet resultSet = preparedStatement.executeQuery();
++            int idPaciente = -1;
++            if (resultSet.next()){
++                idPaciente = resultSet.getInt("id");
++            }
++            resultSet.close();
++
++            // Obter o ID do médico com base no nome
++            String obterIdMedicoSql = "SELECT id FROM medico WHERE nome like ?";
++            preparedStatement = conexao.prepareStatement(obterIdMedicoSql);
++            preparedStatement.setString(1, '%' + medicoNome + '%');
++            resultSet = preparedStatement.executeQuery();
++            int idMedico = -1;
++            if (resultSet.next()){
++                idMedico = resultSet.getInt("id");
++            }
++            resultSet.close();
++
++            if (idPaciente != -1 && idMedico != -1){
++                // Executa a inserção de dados na tabela de consulta
++                String inserirConsultaSql = "INSERT INTO consulta (data_consulta, hora_consulta, id_paciente, id_medico) VALUES (?, ?, ?, ?)";
++                preparedStatement = conexao.prepareStatement(inserirConsultaSql);
++                preparedStatement.setString(1, data);
++                preparedStatement.setString(2, horario);
++                preparedStatement.setInt(3, idPaciente);
++                preparedStatement.setInt(4, idMedico);
++                preparedStatement.executeUpdate();
++
++                System.out.println("Consulta Marcada com sucesso!");
++            } else {
++                System.out.println("Paciente ou médico não encontrado!");
++            }
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++            System.out.println("Falha ao marcar a consulta!");
++        } catch (SQLException e) {
++            e.printStackTrace();
++        } finally {
++            try {
++                if (preparedStatement != null) {
++                    preparedStatement.close();
++                }
++                if (conexao != null) {
++                    conexao.close();
++                }
++            } catch (SQLException e) {
++                e.printStackTrace();
++            }
++        }
++    }
++}
+\ No newline at end of file
